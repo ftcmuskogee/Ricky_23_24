@@ -122,18 +122,40 @@ public class Telephone extends LinearOpMode {
             double Power1 = gamepad1.right_stick_y;
             double Power2 = gamepad1.left_stick_y;
 
+            if (gamepad1.right_bumper) {
+                LinAct.setPower(-.2);
+            }
+            if (gamepad1.left_bumper) {
+                LinAct.setPower(.2);
+            }
+            if (gamepad1.a) {
+                LinAngle.setPosition(.5);
+            }
             /** need to figure out what want all assigned to what buttons then change these things **/
 
-            if (gamepad1.right_bumper) {
+
+            if (gamepad2.left_trigger) {
+                Wrist.setPosition(.2);
+            }
+            if (gamepad2.right_trigger) {
+                Wrist.setPosition(.3);
+            }
+            if (gamepad2.a); {
+                Plane.setPosition(.2);
+            }
+
+            if (gamepad2.right_bumper) {
                 Claw.setPosition(1);
             }
             //Closes claws when the left bumper on gamepad 2 is pressed
-            else if (gamepad1.left_bumper){
+            else if (gamepad2.left_bumper){
                 Claw.setPosition(0.7);
             }
 
-            /** probably wont have enough buttons to have 2 speeds **/
 
+
+            /** probably wont have enough buttons to have 2 speeds **/
+/*
             // sets speed depending on if the left trigger on gamepad 1 is pressed
             if (gamepad1.left_trigger > .1) {
                 speed = .5;
@@ -151,7 +173,7 @@ public class Telephone extends LinearOpMode {
                         )
                 );
             }
-
+*/
             //adds data to the driver hub that tells you the coordinates of where the robot is on the field
             Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("a", poseEstimate.getX());
