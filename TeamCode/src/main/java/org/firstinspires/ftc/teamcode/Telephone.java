@@ -121,7 +121,10 @@ public class Telephone extends LinearOpMode {
             // Makes variables Power1 and Power2 to their respective joystick
             double Power1 = gamepad1.right_stick_y;
             double Power2 = gamepad1.left_stick_y;
-
+            speed = 1;
+            // sets the power for the lifts
+            Arm.setPower(Power1*speed);
+            ArmAngle.setPower(Power2*speed);
             if (gamepad1.right_bumper) {
                 LinAct.setPower(-.2);
             }
@@ -134,15 +137,17 @@ public class Telephone extends LinearOpMode {
             /** need to figure out what want all assigned to what buttons then change these things **/
 
 
-            if (gamepad2.left_trigger) {
+            if (gamepad2.left_trigger > .1) {
                 Wrist.setPosition(.2);
             }
-            if (gamepad2.right_trigger) {
+            if (gamepad2.right_trigger > .1) {
                 Wrist.setPosition(.3);
             }
             if (gamepad2.a); {
                 Plane.setPosition(.2);
             }
+
+
 
             if (gamepad2.right_bumper) {
                 Claw.setPosition(1);
