@@ -61,8 +61,8 @@ public class Telephone extends LinearOpMode {
         Plane = hardwareMap.get(Servo.class,"P");
 
         // sets the right 2 motors to reverse
-        Frontright.setDirection(DcMotor.Direction.REVERSE);
-        Backright.setDirection(DcMotor.Direction.REVERSE);
+        /*Frontright.setDirection(DcMotor.Direction.REVERSE);
+        Backright.setDirection(DcMotor.Direction.REVERSE);*/
 
         Frontright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Backright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -106,10 +106,12 @@ public class Telephone extends LinearOpMode {
             //left stick in the y direction is for going forward and backward at 80% power
             //left stick in the x direction is for strafing left and right at 80% power
             //right stick in the x direction is for turning left and right at 80% power
+            //was x: y
+            //was y: x
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_y*1,
                             -gamepad1.left_stick_x*1,
+                            -gamepad1.left_stick_y*1,
                             -gamepad1.right_stick_x*0.8
                     )
             );
@@ -119,41 +121,47 @@ public class Telephone extends LinearOpMode {
             /** figure out what dis specifically do **/
 
             // Makes variables Power1 and Power2 to their respective joystick
-            double Power1 = gamepad1.right_stick_y;
-            double Power2 = gamepad1.left_stick_y;
+            double Power1 = gamepad2.right_stick_y;
+            double Power2 = gamepad2.left_stick_y;
             speed = 1;
             // sets the power for the lifts
             Arm.setPower(Power1*speed);
             ArmAngle.setPower(Power2*speed);
+
+            //down
             if (gamepad1.right_bumper) {
                 LinAct.setPower(-.2);
             }
-            if (gamepad1.left_bumper) {
+            //up
+            else if (gamepad1.left_bumper) {
                 LinAct.setPower(.2);
             }
+            else {
+                LinAct.setPower(0);
+            }
+
             if (gamepad1.a) {
-                LinAngle.setPosition(.5);
+                LinAngle.setPosition(-.1);
             }
             /** need to figure out what want all assigned to what buttons then change these things **/
 
 
-            if (gamepad2.left_trigger > .1) {
+            while (gamepad2.left_trigger > 0.1) {
                 Wrist.setPosition(.2);
             }
-            if (gamepad2.right_trigger > .1) {
+            while (gamepad2.right_trigger > 0.1) {
                 Wrist.setPosition(.3);
             }
+
             if (gamepad2.a); {
                 Plane.setPosition(.2);
             }
-
-
 
             if (gamepad2.right_bumper) {
                 Claw.setPosition(1);
             }
             //Closes claws when the left bumper on gamepad 2 is pressed
-            else if (gamepad2.left_bumper){
+            if (gamepad2.left_bumper){
                 Claw.setPosition(0.7);
             }
 
