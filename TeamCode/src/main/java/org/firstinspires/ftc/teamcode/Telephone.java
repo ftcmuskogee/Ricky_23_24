@@ -161,7 +161,7 @@ public class Telephone extends LinearOpMode {
                 Claw.setPosition(1);
             }
             //Closes claws when the left bumper on gamepad 2 is pressed
-            if (gamepad2.left_bumper){
+            else if (gamepad2.left_bumper){
                 Claw.setPosition(0.7);
             }
 
