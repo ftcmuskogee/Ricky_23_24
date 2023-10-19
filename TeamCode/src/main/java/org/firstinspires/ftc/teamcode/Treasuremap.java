@@ -58,7 +58,7 @@ public class Treasuremap {
         Backright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Frontleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Backleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+/*
         //set claw open posibly
         Claw.setPosition(.5);
 
@@ -70,7 +70,7 @@ public class Treasuremap {
 
         // linear actuar start angle .... hopefully
         LinAngle.setPosition(.5);
-
+*/
         Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -181,9 +181,11 @@ public class Treasuremap {
     //claw grab
     public void C(double position) {Claw.setPosition(position);}
     //claw wrist
-    public void W(double position) {Claw.setPosition(position);}
+    public void W(double position) {Wrist.setPosition(position);}
     // plane launch
-    public void P(double position) {Claw.setPosition(position);}
+    public void P(double position) {Plane.setPosition(position);}
+
+    public void LA(double position) {LinAngle.setPosition(position);}
 
     //function for moving arm 1 down
     //runs arm 1 motor down at 100% power

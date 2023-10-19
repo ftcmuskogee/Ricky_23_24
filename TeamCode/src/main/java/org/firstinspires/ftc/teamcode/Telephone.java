@@ -48,17 +48,17 @@ public class Telephone extends LinearOpMode {
         double speed;
 
         //sets up names for configuration
-        Frontright = hardwareMap.get(DcMotor.class,"RF");
-        Backright = hardwareMap.get(DcMotor.class,"RB");
-        Backleft = hardwareMap.get(DcMotor.class,"LB");
-        Frontleft = hardwareMap.get(DcMotor.class,"LF");
-        LinAct = hardwareMap.get(DcMotor.class,"Act");
-        Claw = hardwareMap.get(Servo.class,"C");
-        Arm = hardwareMap.get(DcMotor.class,"L");
-        Wrist = hardwareMap.get(Servo.class,"W");
-        LinAngle = hardwareMap.get(Servo.class,"LA");
-        ArmAngle = hardwareMap.get(DcMotor.class,"AA");
-        Plane = hardwareMap.get(Servo.class,"P");
+        Frontright = hardwareMap.get(DcMotor.class, "RF");
+        Backright = hardwareMap.get(DcMotor.class, "RB");
+        Backleft = hardwareMap.get(DcMotor.class, "LB");
+        Frontleft = hardwareMap.get(DcMotor.class, "LF");
+        LinAct = hardwareMap.get(DcMotor.class, "Act");
+        Claw = hardwareMap.get(Servo.class, "C");
+        Arm = hardwareMap.get(DcMotor.class, "L");
+        Wrist = hardwareMap.get(Servo.class, "W");
+        LinAngle = hardwareMap.get(Servo.class, "LA");
+        ArmAngle = hardwareMap.get(DcMotor.class, "AA");
+        Plane = hardwareMap.get(Servo.class, "P");
 
         // sets the right 2 motors to reverse
         /*Frontright.setDirection(DcMotor.Direction.REVERSE);
@@ -80,7 +80,7 @@ public class Telephone extends LinearOpMode {
         LinAct.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LinAct.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LinAct.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+/*
         //set claw open posibly
         Claw.setPosition(.5);
         // set wrist angle right ... maybe
@@ -88,7 +88,7 @@ public class Telephone extends LinearOpMode {
         // set plane lanch angle not launch it yet.... in theroy
         Plane.setPosition(.5);
         // linear actuar start angle .... hopefully
-        LinAngle.setPosition(.5);
+        LinAngle.setPosition(.5);*/
 
         //calls from samplemecanumdrive
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -99,7 +99,7 @@ public class Telephone extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
 
             //sets all 4 base motors to the left and right joysticks on gamepad 1
             //uses the variables from SampleMecanumDrive to adjust motors
@@ -110,9 +110,9 @@ public class Telephone extends LinearOpMode {
             //was y: x
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_x*1,
-                            -gamepad1.left_stick_y*1,
-                            -gamepad1.right_stick_x*0.8
+                            -gamepad1.left_stick_x * 1,
+                            -gamepad1.left_stick_y * 1,
+                            -gamepad1.right_stick_x * 0.8
                     )
             );
 
@@ -125,8 +125,8 @@ public class Telephone extends LinearOpMode {
             double Power2 = gamepad2.left_stick_y;
             speed = 1;
             // sets the power for the lifts
-            Arm.setPower(Power1*speed);
-            ArmAngle.setPower(Power2*speed);
+            Arm.setPower(Power1 * speed);
+            ArmAngle.setPower(Power2 * speed);
 
             //down
             if (gamepad1.right_bumper) {
@@ -135,14 +135,14 @@ public class Telephone extends LinearOpMode {
             //up
             else if (gamepad1.left_bumper) {
                 LinAct.setPower(.2);
-            }
-            else {
+            } else {
                 LinAct.setPower(0);
             }
-
+//turn servo not positiion
             if (gamepad1.a) {
-                LinAngle.setPosition(-.1);
+                LinAngle.setPosition(-.05);
             }
+
             /** need to figure out what want all assigned to what buttons then change these things **/
 
 
@@ -153,40 +153,19 @@ public class Telephone extends LinearOpMode {
                 Wrist.setPosition(.3);
             }
 
-            if (gamepad2.a); {
+            if (gamepad2.a) {
                 Plane.setPosition(.2);
             }
 
             if (gamepad2.right_bumper) {
                 Claw.setPosition(1);
             }
+
             //Closes claws when the left bumper on gamepad 2 is pressed
-            else if (gamepad2.left_bumper){
+            else if (gamepad1.left_bumper) {
                 Claw.setPosition(0.7);
             }
 
-
-
-            /** probably wont have enough buttons to have 2 speeds **/
-/*
-            // sets speed depending on if the left trigger on gamepad 1 is pressed
-            if (gamepad1.left_trigger > .1) {
-                speed = .5;
-            }
-            else {
-                speed = 1;
-            }
-
-            while(gamepad1.left_trigger > .1){
-                drive.setWeightedDrivePower(
-                        new Pose2d(
-                                -gamepad1.left_stick_y/2,
-                                -gamepad1.left_stick_x/2,
-                                -gamepad1.right_stick_x/2
-                        )
-                );
-            }
-*/
             //adds data to the driver hub that tells you the coordinates of where the robot is on the field
             Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("a", poseEstimate.getX());
@@ -194,8 +173,8 @@ public class Telephone extends LinearOpMode {
             telemetry.addData("heading", poseEstimate.getHeading());
 
             telemetry.update();
-            }
         }
-
     }
+}
+
 
