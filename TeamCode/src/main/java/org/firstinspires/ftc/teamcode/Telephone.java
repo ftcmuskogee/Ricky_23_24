@@ -110,8 +110,8 @@ public class Telephone extends LinearOpMode {
             //was y: x
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_x * 1,
                             -gamepad1.left_stick_y * 1,
+                            -gamepad1.left_stick_x * 1,
                             -gamepad1.right_stick_x * 0.8
                     )
             );
@@ -123,7 +123,7 @@ public class Telephone extends LinearOpMode {
             // Makes variables Power1 and Power2 to their respective joystick
             double Power1 = gamepad2.right_stick_y;
             double Power2 = gamepad2.left_stick_y;
-            speed = 1;
+            speed = -1;
             // sets the power for the lifts
             Arm.setPower(Power1 * speed);
             ArmAngle.setPower(Power2 * speed);
@@ -143,14 +143,11 @@ public class Telephone extends LinearOpMode {
                 LinAngle.setPosition(-.05);
             }
 
-            /** need to figure out what want all assigned to what buttons then change these things **/
-
-
-            while (gamepad2.left_trigger > 0.1) {
-                Wrist.setPosition(.2);
+            if (gamepad2.left_trigger > 0.1) {
+                Wrist.setPosition(.8);
             }
-            while (gamepad2.right_trigger > 0.1) {
-                Wrist.setPosition(.3);
+            else if (gamepad2.right_trigger > 0.1) {
+                Wrist.setPosition(.65);
             }
 
             if (gamepad2.a) {
@@ -158,12 +155,11 @@ public class Telephone extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper) {
-                Claw.setPosition(1);
+                Claw.setPosition(.1);
             }
-
             //Closes claws when the left bumper on gamepad 2 is pressed
-            else if (gamepad1.left_bumper) {
-                Claw.setPosition(0.7);
+            else if (gamepad2.left_bumper) {
+                Claw.setPosition(0);
             }
 
             //adds data to the driver hub that tells you the coordinates of where the robot is on the field
