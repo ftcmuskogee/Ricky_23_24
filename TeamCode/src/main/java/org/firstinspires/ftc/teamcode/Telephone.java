@@ -123,7 +123,7 @@ public class Telephone extends LinearOpMode {
             // Makes variables Power1 and Power2 to their respective joystick
             double Power1 = gamepad2.right_stick_y;
             double Power2 = gamepad2.left_stick_y;
-            speed = -1;
+            speed = -.2;
             // sets the power for the lifts
             Arm.setPower(Power1 * speed);
             ArmAngle.setPower(Power2 * speed);
@@ -142,25 +142,42 @@ public class Telephone extends LinearOpMode {
             if (gamepad1.a) {
                 LinAngle.setPosition(-.05);
             }
+            //up idk
+            if (gamepad2.right_bumper){
+                Wrist.setPosition(.65);
+            }
+            // down idk
+            if (gamepad2.left_bumper){
+                Wrist.setPosition(.8);
+            }
+            //close
+            if (gamepad2.left_trigger >0.1) {
+                Claw.setPosition(.1);
+            }
 
+            if (gamepad2.right_trigger > .1){
+                Claw.setPosition(0);
+            }
+/*
             if (gamepad2.left_trigger > 0.1) {
                 Wrist.setPosition(.8);
             }
             else if (gamepad2.right_trigger > 0.1) {
                 Wrist.setPosition(.65);
             }
-
+*/
             if (gamepad2.a) {
                 Plane.setPosition(.2);
             }
-
+/*
             if (gamepad2.right_bumper) {
                 Claw.setPosition(.1);
             }
+
             //Closes claws when the left bumper on gamepad 2 is pressed
             else if (gamepad2.left_bumper) {
                 Claw.setPosition(0);
-            }
+            }*/
 
             //adds data to the driver hub that tells you the coordinates of where the robot is on the field
             Pose2d poseEstimate = drive.getPoseEstimate();
