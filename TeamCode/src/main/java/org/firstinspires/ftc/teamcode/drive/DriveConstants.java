@@ -37,7 +37,7 @@ public class DriveConstants {
 
     //When I first tested : p = 12 (all others 0)
     // When I tested again : p = 20 (all others 0)
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(24, 0, 5,
             getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
@@ -50,7 +50,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1.0; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 12; // in
+    public static double TRACK_WIDTH = 18; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -92,12 +92,13 @@ public class DriveConstants {
      */
 
     //micheal sujested 44
-    public static double MAX_VEL = 70.57908451704478;
+    public static double MAX_VEL = 67;
     public static double MAX_ACCEL = 70;
     // micheal sujested 20
-    public static double MAX_ANG_VEL = Math.toRadians(349.376775);
+    public static double MAX_ANG_VEL = Math.toRadians(140);
     // When I tested : 8.6169912455691
-    public static double MAX_ANG_ACCEL = Math.toRadians(349.376775);
+    //test said 20
+    public static double MAX_ANG_ACCEL = Math.toRadians(390);
 
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;

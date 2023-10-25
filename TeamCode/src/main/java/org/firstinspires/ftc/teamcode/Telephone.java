@@ -184,7 +184,6 @@ public class Telephone extends LinearOpMode {
             telemetry.addData("a", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
-
             telemetry.update();
         }
     }
