@@ -37,7 +37,8 @@ public class DriveConstants {
 
     //When I first tested : p = 12 (all others 0)
     // When I tested again : p = 20 (all others 0)
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(24, 0, 5,
+    //p=24 d=5
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
             getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
@@ -50,7 +51,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 1.8898; // in
     public static double GEAR_RATIO = 1.0; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 18; // in
+    public static double TRACK_WIDTH = 12; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
