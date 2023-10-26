@@ -150,11 +150,12 @@ public class Telephone extends LinearOpMode {
             if (gamepad2.left_bumper){
                 Wrist.setPosition(.8);
             }
-            //close
+            //open
+            //was .1
             if (gamepad2.left_trigger >0.1) {
-                Claw.setPosition(.1);
+                Claw.setPosition(.2);
             }
-
+//close
             if (gamepad2.right_trigger > .1){
                 Claw.setPosition(0);
             }
