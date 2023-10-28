@@ -140,7 +140,7 @@ public class Telephone extends LinearOpMode {
             }
 //turn servo not positiion
             if (gamepad1.a) {
-                LinAngle.setPosition(-.05);
+                LinAngle.setPosition(.5);
             }
             //up idk
             if (gamepad2.right_bumper){
@@ -155,9 +155,11 @@ public class Telephone extends LinearOpMode {
             if (gamepad2.left_trigger >0.1) {
                 Claw.setPosition(.2);
             }
-//close
+//close and up wrist
             if (gamepad2.right_trigger > .1){
                 Claw.setPosition(0);
+                sleep(500);
+                Wrist.setPosition(.8);
             }
 /*
             if (gamepad2.left_trigger > 0.1) {
