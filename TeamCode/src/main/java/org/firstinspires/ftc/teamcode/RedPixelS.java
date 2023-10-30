@@ -11,10 +11,31 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 @Autonomous (name = "Red Pixel Side", group = "Autonomous Main")
 public class RedPixelS extends LinearOpMode {
+    Camera camera = new Camera(hardwareMap);
     @Override
     public void runOpMode(){
+        camera.getPipelineOutput();
+        telemetry.addLine("press play");
+        waitForStart();
+
+        while (opModeIsActive()){
+            telemetry.addLine(camera.getPipelineOutput());
+            telemetry.update();
+            if (camera.getPipelineOutput() == "Right"){
+                telemetry.addLine("right");
+            }
+            if (camera.getPipelineOutput() == "Left"){
+                telemetry.addLine("left");
+
+            }
+            if (camera.getPipelineOutput() == "Middle"){
+                telemetry.addLine("middle");
+
+            }
+
+        }
+
 
     }
 
 }
-private void
