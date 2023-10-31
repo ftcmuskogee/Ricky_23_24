@@ -39,7 +39,7 @@ public class DriveConstants {
     // When I tested again : p = 20 (all others 0)
     //p=24 d=5
     // p = 18 d = 4
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(8, 0, 3,
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(10.0, 0.0, 0.0,
             getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
@@ -94,8 +94,8 @@ public class DriveConstants {
      */
 
     //micheal suggested 44
-    public static double MAX_VEL = 65;
-    public static double MAX_ACCEL = 70;
+    public static double MAX_VEL = 70.0;
+    public static double MAX_ACCEL = 35;
     // micheal suggested 20
     public static double MAX_ANG_VEL = Math.toRadians(390);
     //180
