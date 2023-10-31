@@ -103,6 +103,7 @@ public class autowrongway extends OpMode {
                 robot.AU(.2);
                 robot.W(.8);
                 robot.C(.2);
+                Webcam1.stopStreaming();
 
             }
             if ((leftavgfin > rightavgfin) && (leftavgfin > midavgfin)){
@@ -115,6 +116,7 @@ public class autowrongway extends OpMode {
                 robot.AU(.2);
                 robot.W(.8);
                 robot.C(.2);
+                Webcam1.stopStreaming();
             }
             if ((midavgfin > rightavgfin) && (midavgfin > leftavgfin)){
                 telemetry.addLine("Middle");
@@ -126,6 +128,7 @@ public class autowrongway extends OpMode {
                 robot.AU(.2);
                 robot.W(.8);
                 robot.C(.2);
+                Webcam1.stopStreaming();
             }
 
             return(outPut);}}}
