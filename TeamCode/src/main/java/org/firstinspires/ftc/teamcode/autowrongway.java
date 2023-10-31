@@ -96,6 +96,7 @@ public class autowrongway extends OpMode {
 
             if ((rightavgfin > leftavgfin ) && (rightavgfin > midavgfin)){
                 telemetry.addLine("Right");
+
                 robot.C(0);
                 robot.W(.65);
                 robot.RightStrafe(.1);
