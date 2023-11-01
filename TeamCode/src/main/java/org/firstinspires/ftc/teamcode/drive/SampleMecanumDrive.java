@@ -58,7 +58,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = -1.5189873418;
+    public static double LATERAL_MULTIPLIER = 1;
     //when I tested : 1.39534883721
     //test pt 2 ; 1.42857143
 

@@ -38,7 +38,7 @@ public class DriveConstants {
     //When I first tested : p = 12 (all others 0)
     // When I tested again : p = 20 (all others 0)
     //p=24 d=5
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(18, 0, 4,
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(12, 0, 0,
             getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
@@ -92,14 +92,9 @@ public class DriveConstants {
 
      */
 
-    //micheal suggested 44
-    public static double MAX_VEL = 65;
+    public static double MAX_VEL = 58;
     public static double MAX_ACCEL = 70;
-    // micheal suggested 20
     public static double MAX_ANG_VEL = Math.toRadians(390);
-    // When I tested : 8.6169912455691
-    // was 140
-    //test said 20
     public static double MAX_ANG_ACCEL = Math.toRadians(390);
 
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
