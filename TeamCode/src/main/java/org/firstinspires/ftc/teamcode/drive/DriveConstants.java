@@ -93,15 +93,9 @@ public class DriveConstants {
 
      */
 
-    //micheal suggested 44
     public static double MAX_VEL = 70.0;
     public static double MAX_ACCEL = 35;
-    // micheal suggested 20
     public static double MAX_ANG_VEL = Math.toRadians(390);
-    //180
-    // When I tested : 8.6169912455691
-    // was 140
-    //test said 20
     public static double MAX_ANG_ACCEL = Math.toRadians(390);
 
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
