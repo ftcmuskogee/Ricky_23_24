@@ -139,9 +139,9 @@ public class OpenCvBlue extends LinearOpMode
             midcrop = YCbCr.submat(midRect);
             rightcrop = YCbCr.submat(rightRect);
 
-            Core.extractChannel(leftcrop,leftcrop,1);
-            Core.extractChannel(rightcrop,rightcrop,1);
-            Core.extractChannel(midcrop,midcrop,1);
+            Core.extractChannel(leftcrop,leftcrop,2);
+            Core.extractChannel(rightcrop,rightcrop,2);
+            Core.extractChannel(midcrop,midcrop,2);
 
             Scalar leftavg = Core.mean(leftcrop);
             Scalar rightavg = Core.mean(rightcrop);

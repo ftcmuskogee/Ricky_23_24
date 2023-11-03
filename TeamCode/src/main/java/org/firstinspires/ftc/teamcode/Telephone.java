@@ -102,7 +102,7 @@ public class Telephone extends LinearOpMode {
             drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y * 1,
-                            -gamepad1.left_stick_x * 1,
+                            gamepad1.left_stick_x * 1,
                             -gamepad1.right_stick_x * 0.8
                     )
             );
@@ -129,7 +129,7 @@ public class Telephone extends LinearOpMode {
             }
 //turn servo not positiion
             if (gamepad1.a) {
-                LinAngle.setPosition(.5);
+                LinAngle.setPosition(0);
             }
             //up idk
             if (gamepad2.right_bumper){
@@ -159,7 +159,7 @@ public class Telephone extends LinearOpMode {
             }
 */
             if (gamepad2.a) {
-                Plane.setPosition(.2);
+                Plane.setPosition(0);
             }
 /*
             if (gamepad2.right_bumper) {
