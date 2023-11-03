@@ -80,15 +80,6 @@ public class Telephone extends LinearOpMode {
         LinAct.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LinAct.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LinAct.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-/*
-        //set claw open posibly
-        Claw.setPosition(.5);
-        // set wrist angle right ... maybe
-        Wrist.setPosition(.5);
-        // set plane lanch angle not launch it yet.... in theroy
-        Plane.setPosition(.5);
-        // linear actuar start angle .... hopefully
-        LinAngle.setPosition(.5);*/
 
         //calls from samplemecanumdrive
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -117,8 +108,6 @@ public class Telephone extends LinearOpMode {
             );
 
             drive.update();
-
-            /** figure out what dis specifically do **/
 
             // Makes variables Power1 and Power2 to their respective joystick
             double Power1 = gamepad2.right_stick_y;
@@ -158,8 +147,8 @@ public class Telephone extends LinearOpMode {
 //close and up wrist
             if (gamepad2.right_trigger > .1){
                 Claw.setPosition(0);
-                sleep(500);
-                Wrist.setPosition(.8);
+                //sleep(500);
+                //Wrist.setPosition(.8);
             }
 /*
             if (gamepad2.left_trigger > 0.1) {

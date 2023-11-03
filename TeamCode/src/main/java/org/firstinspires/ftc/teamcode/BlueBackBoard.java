@@ -21,26 +21,31 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
+
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 /*
  * This sample demonstrates how to run analysis during INIT
  * and then snapshot that value for later use when the START
  * command is issued. The pipeline is re-used from SkystoneDeterminationExample
  */
-@Autonomous(name = "RedPixelSide", group = "robot")
-public class RedPixelS extends LinearOpMode
+@Autonomous(name = "BlueBackBoard", group = "robot")
+public class BlueBackBoard extends LinearOpMode
 {
     OpenCvWebcam webcam;
-    OpenCvRed.SkystoneDeterminationPipeline pipeline;
-    OpenCvRed.SkystoneDeterminationPipeline.SkystonePosition snapshotAnalysis = OpenCvRed.SkystoneDeterminationPipeline.SkystonePosition.LEFT; // default
+    OpenCvBlue.BlueDeterminationPipeline pipeline;
+    OpenCvBlue.BlueDeterminationPipeline.SkystonePosition snapshotAnalysis = OpenCvBlue.BlueDeterminationPipeline.SkystonePosition.CENTER; // default
 
     @Override
     public void runOpMode()
@@ -48,7 +53,7 @@ public class RedPixelS extends LinearOpMode
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        pipeline = new OpenCvRed.SkystoneDeterminationPipeline();
+        pipeline = new OpenCvBlue.BlueDeterminationPipeline();
         webcam.setPipeline(pipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -77,7 +82,25 @@ public class RedPixelS extends LinearOpMode
         }
         Treasuremap robot = new Treasuremap();
         robot.init(hardwareMap);
-        //SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(0));
+        drive.setPoseEstimate(startPose);
+
+        TrajectorySequence M = drive.trajectorySequenceBuilder(startPose)
+                .lineToConstantHeading(new Vector2d(-35, 10), SampleMecanumDrive.getVelocityConstraint(70, Math.toRadians(360), 15),
+                        SampleMecanumDrive.getAccelerationConstraint(35))
+                .build();
+        TrajectorySequence L = drive.trajectorySequenceBuilder(startPose)
+                .turn(45)
+                .lineToConstantHeading(new Vector2d(-35, 10), SampleMecanumDrive.getVelocityConstraint(70, Math.toRadians(360), 15),
+                        SampleMecanumDrive.getAccelerationConstraint(35))
+                .build();
+        TrajectorySequence R = drive.trajectorySequenceBuilder(startPose)
+                .turn(180)
+                .lineToConstantHeading(new Vector2d(-35, 10), SampleMecanumDrive.getVelocityConstraint(70, Math.toRadians(360), 15),
+                        SampleMecanumDrive.getAccelerationConstraint(35))
+                .build();
+
 
         /*
          * The START command just came in: snapshot the current analysis now
@@ -97,23 +120,33 @@ public class RedPixelS extends LinearOpMode
             case LEFT:
             {
                 telemetry.addLine("left");
-                robot.Forward(.1);
-                /* Your autonomous code */
+                robot.C(0);
+                sleep(500);
+                drive.followTrajectorySequence(L);
+                sleep(500);
+                robot.W(.65);
                 break;
             }
 
             case RIGHT:
             {
                 telemetry.addLine("right");
-                robot.Backward(.1);
-                /* Your autonomous code */
+                robot.C(0);
+                sleep(500);
+                drive.followTrajectorySequence(R);
+                sleep(500);
+                robot.W(.65);
                 break;
             }
 
             case CENTER:
             {
                 telemetry.addLine("mid");
-                robot.Right(.1);
+                robot.C(0);
+                sleep(500);
+                drive.followTrajectorySequence(M);
+                sleep(500);
+                robot.W(.65);
                 /* Your autonomous code*/
                 break;
             }

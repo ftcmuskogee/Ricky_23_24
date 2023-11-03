@@ -42,10 +42,10 @@ import org.openftc.easyopencv.OpenCvPipeline;
  * the sample regions over the first 3 stones.
  */
 @TeleOp
-public class OpenCvRed extends LinearOpMode
+public class OpenCvBlue extends LinearOpMode
 {
     OpenCvInternalCamera phoneCam;
-    SkystoneDeterminationPipeline pipeline;
+    BlueDeterminationPipeline pipeline;
 
     @Override
     public void runOpMode()
@@ -59,7 +59,7 @@ public class OpenCvRed extends LinearOpMode
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-        pipeline = new SkystoneDeterminationPipeline();
+        pipeline = new BlueDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
 
         // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
@@ -97,7 +97,7 @@ public class OpenCvRed extends LinearOpMode
         }
     }
 
-    public static class SkystoneDeterminationPipeline extends OpenCvPipeline
+    public static class BlueDeterminationPipeline extends OpenCvPipeline
     {
         /*
          * An enum to define the skystone position
@@ -116,7 +116,7 @@ public class OpenCvRed extends LinearOpMode
         double rightavgfin;
         double midavgfin;
         Mat outPut = new Mat();
-        Scalar rectColor = new Scalar(255.0,0.0,0.0);
+        Scalar rectColor = new Scalar(0.0,0.0,255.0);
 
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile SkystonePosition position = SkystonePosition.CENTER;
