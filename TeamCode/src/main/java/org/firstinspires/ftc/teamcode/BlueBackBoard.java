@@ -93,8 +93,8 @@ public class BlueBackBoard extends LinearOpMode
         TrajectorySequence M2 = drive.trajectorySequenceBuilder(M.end())
                 .lineToConstantHeading(new Vector2d(-35, 57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                //.lineToConstantHeading(new Vector2d(-10, 57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                //        SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(-10, 57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
         TrajectorySequence L = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(-35, 40), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
@@ -104,10 +104,10 @@ public class BlueBackBoard extends LinearOpMode
         TrajectorySequence L2 = drive.trajectorySequenceBuilder(L.end())
                 .back(1)
                 .turn(Math.toRadians(-50))
-                //.lineToConstantHeading(new Vector2d(-35, 57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        //SampleMecanumDrive.getAccelerationConstraint(70))
-                //.lineToConstantHeading(new Vector2d(-10, 57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                       // SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(-35, 57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(-10, 57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
         TrajectorySequence R = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(-35, 40), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
@@ -117,10 +117,10 @@ public class BlueBackBoard extends LinearOpMode
         TrajectorySequence R2 = drive.trajectorySequenceBuilder(R.end())
                 .back(1)
                 .turn(Math.toRadians(52))
-                //.lineToConstantHeading(new Vector2d(-35, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                    //    SampleMecanumDrive.getAccelerationConstraint(70))
-                //.lineToConstantHeading(new Vector2d(-10, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        //SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(-35, 56), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(-9, 56), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
 
 
