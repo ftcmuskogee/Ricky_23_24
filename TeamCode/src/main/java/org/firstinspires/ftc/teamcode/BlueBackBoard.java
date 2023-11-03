@@ -150,6 +150,7 @@ public class BlueBackBoard extends LinearOpMode
                 sleep(500);
                 robot.C(0.2);
                 sleep(500);
+                drive.followTrajectorySequence(L2);
                 break;
             }
 
@@ -163,6 +164,7 @@ public class BlueBackBoard extends LinearOpMode
                 drive.followTrajectorySequence(R);
                 sleep(500);
                 robot.C(0.2);
+                drive.followTrajectorySequence(R2);
                 break;
             }
 
@@ -176,6 +178,7 @@ public class BlueBackBoard extends LinearOpMode
                 drive.followTrajectorySequence(M);
                 sleep(500);
                 robot.C(0.2);
+                drive.followTrajectorySequence(M2);
                 break;
             }
         }
