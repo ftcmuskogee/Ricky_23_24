@@ -40,8 +40,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  * and then snapshot that value for later use when the START
  * command is issued. The pipeline is re-used from SkystoneDeterminationExample
  */
-@Autonomous(name = "blue", group = "robot")
-public class RedBackBoard extends LinearOpMode
+@Autonomous(name = "blue Back Board", group = "robot")
+public class BlueBack extends LinearOpMode
 {
     OpenCvWebcam webcam;
     OpenCvBlue.BlueDeterminationPipeline pipeline;
@@ -83,26 +83,31 @@ public class RedBackBoard extends LinearOpMode
         Treasuremap robot = new Treasuremap();
         robot.init(hardwareMap);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(60, -35, Math.toRadians(90));
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence M = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(-35, -37), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(39, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
+
         TrajectorySequence M2 = drive.trajectorySequenceBuilder(M.end())
-                .lineToConstantHeading(new Vector2d(-35, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .turn(Math.toRadians(85))
+                .build();
+
+        TrajectorySequence M3 = drive.trajectorySequenceBuilder(M2.end())
+                .lineToConstantHeading(new Vector2d(35, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(-10, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(39, -67), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
 
         TrajectorySequence L = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(-35, -40), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(38, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .turn(Math.toRadians(50))
+                .turn(Math.toRadians(140))
                 .build();
-        TrajectorySequence L2 = drive.trajectorySequenceBuilder(L.end())
+    /*    TrajectorySequence L2 = drive.trajectorySequenceBuilder(L.end())
                 .back(1)
                 .turn(Math.toRadians(-50))
                 .lineToConstantHeading(new Vector2d(-35, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
@@ -110,21 +115,17 @@ public class RedBackBoard extends LinearOpMode
                 .lineToConstantHeading(new Vector2d(-10, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
-
+*/
         TrajectorySequence R = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(-35, -40), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(38, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .turn(Math.toRadians(-52))
+                .lineToConstantHeading(new Vector2d(38, -37), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
         TrajectorySequence R2 = drive.trajectorySequenceBuilder(R.end())
-                .back(1)
-                .turn(Math.toRadians(52))
-                .lineToConstantHeading(new Vector2d(-35, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                    SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(-10, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                    SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(38, -67), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
-
 
 
         /*
@@ -147,13 +148,13 @@ public class RedBackBoard extends LinearOpMode
                 telemetry.addLine("left");
                 robot.C(0);
                 sleep(500);
-                robot.W(.65);
-                sleep(500);
                 drive.followTrajectorySequence(L);
+                sleep(500);
+                robot.W(.65);
                 sleep(500);
                 robot.C(0.2);
                 sleep(500);
-                drive.followTrajectorySequence(L2);
+              //  drive.followTrajectorySequence(L2);
                 break;
             }
 
@@ -162,11 +163,10 @@ public class RedBackBoard extends LinearOpMode
                 telemetry.addLine("right");
                 robot.C(0);
                 sleep(500);
-                robot.W(.65);
-                sleep(500);
                 drive.followTrajectorySequence(R);
                 sleep(500);
-                robot.C(0.2);
+                robot.W(.65);
+                sleep(500);
                 drive.followTrajectorySequence(R2);
                 break;
             }
@@ -176,12 +176,15 @@ public class RedBackBoard extends LinearOpMode
                 telemetry.addLine("mid");
                 robot.C(0);
                 sleep(500);
-                robot.W(.65);
-                sleep(500);
                 drive.followTrajectorySequence(M);
                 sleep(500);
-                robot.C(0.2);
+                robot.W(.65);
+                sleep(500);
                 drive.followTrajectorySequence(M2);
+                sleep(500);
+                robot.C(0.2);
+                sleep(500);
+                drive.followTrajectorySequence(M3);
                 break;
             }
         }

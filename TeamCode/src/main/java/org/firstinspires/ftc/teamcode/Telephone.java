@@ -128,7 +128,7 @@ public class Telephone extends LinearOpMode {
                 LinAct.setPower(0);
             }
 //turn servo not positiion
-            if (gamepad1.a) {
+            if (gamepad1.x) {
                 LinAngle.setPosition(0);
             }
             //up idk
