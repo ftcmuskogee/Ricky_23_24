@@ -40,12 +40,12 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  * and then snapshot that value for later use when the START
  * command is issued. The pipeline is re-used from SkystoneDeterminationExample
  */
-@Autonomous(name = "blue Back Board", group = "robot")
-public class BlueBack extends LinearOpMode
+@Autonomous(name = "redFront", group = "robot")
+public class RedFront extends LinearOpMode
 {
     OpenCvWebcam webcam;
-    OpenCvBlue.BlueDeterminationPipeline pipeline;
-    OpenCvBlue.BlueDeterminationPipeline.SkystonePosition snapshotAnalysis = OpenCvBlue.BlueDeterminationPipeline.SkystonePosition.CENTER; // default
+    OpenCvRed.SkystoneDeterminationPipeline pipeline;
+    OpenCvRed.SkystoneDeterminationPipeline.SkystonePosition snapshotAnalysis = OpenCvRed.SkystoneDeterminationPipeline.SkystonePosition.CENTER; // default
 
     @Override
     public void runOpMode()
@@ -53,7 +53,7 @@ public class BlueBack extends LinearOpMode
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        pipeline = new OpenCvBlue.BlueDeterminationPipeline();
+        pipeline = new OpenCvRed.SkystoneDeterminationPipeline();
         webcam.setPipeline(pipeline);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -84,65 +84,30 @@ public class BlueBack extends LinearOpMode
         robot.init(hardwareMap);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(60, -35, Math.toRadians(90));
+        //35,-60
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence M = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(39, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(40, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .build();
-
-        TrajectorySequence M2 = drive.trajectorySequenceBuilder(M.end())
-                .turn(Math.toRadians(85))
-                .build();
-
-        TrajectorySequence M3 = drive.trajectorySequenceBuilder(M2.end())
-                .lineToConstantHeading(new Vector2d(43,-35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(43, -63), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(38, -65), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .build();
-
-
-        TrajectorySequence L = drive.trajectorySequenceBuilder(startPose)
+                .turn(Math.toRadians(90))
                 .lineToConstantHeading(new Vector2d(38, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .turn(Math.toRadians(90))
                 .build();
-        TrajectorySequence L2 = drive.trajectorySequenceBuilder(L.end())
-                .turn(Math.toRadians(90))
+
+        TrajectorySequence L = drive.trajectorySequenceBuilder(startPose)
+                .lineToConstantHeading(new Vector2d(40, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
+                .turn(Math.toRadians(140))
+                .lineToConstantHeading(new Vector2d(40, -31), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
+                .build();
+
+        TrajectorySequence R = drive.trajectorySequenceBuilder(startPose)
+                .lineToConstantHeading(new Vector2d(37, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
                 .lineToConstantHeading(new Vector2d(37, -32), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .build();
-        TrajectorySequence L3 = drive.trajectorySequenceBuilder(L2.end())
-                .lineToConstantHeading(new Vector2d(37, -33), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(37, -60), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .build();
-    /*    TrajectorySequence L2 = drive.trajectorySequenceBuilder(L.end())
-                .back(1)
-                .turn(Math.toRadians(-50))
-                .lineToConstantHeading(new Vector2d(-35, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(-10, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .build();
-*/
-        TrajectorySequence R = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(38, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(38, -36), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .build();
-         TrajectorySequence R2 = drive.trajectorySequenceBuilder(R.end())
-                 .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(38, -65), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                 .lineToConstantHeading(new Vector2d(24, -67.5), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
-                SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
 
 
@@ -166,16 +131,12 @@ public class BlueBack extends LinearOpMode
                 telemetry.addLine("left");
                 robot.C(0);
                 sleep(500);
+                robot.W(.65);
+                sleep(500);
                 drive.followTrajectorySequence(L);
-                sleep(500);
-                robot.W(.5);
-                sleep(500);
-                drive.followTrajectorySequence(L2);
                 sleep(500);
                 robot.C(0.2);
                 sleep(500);
-                drive.followTrajectorySequence(L3);
-              //  drive.followTrajectorySequence(L2);
                 break;
             }
 
@@ -184,16 +145,11 @@ public class BlueBack extends LinearOpMode
                 telemetry.addLine("right");
                 robot.C(0);
                 sleep(500);
+                robot.W(.65);
+                sleep(500);
                 drive.followTrajectorySequence(R);
                 sleep(500);
-                robot.W(.5);
-                sleep(500);
                 robot.C(0.2);
-                sleep(500);
-                robot.W(.8);
-                sleep(1500);
-                //robot.C(0);
-                drive.followTrajectorySequence(R2);
                 break;
             }
 
@@ -202,23 +158,20 @@ public class BlueBack extends LinearOpMode
                 telemetry.addLine("mid");
                 robot.C(0);
                 sleep(500);
+                robot.W(.65);
+                sleep(500);
                 drive.followTrajectorySequence(M);
                 sleep(500);
-                robot.W(.5);
-                sleep(500);
-                drive.followTrajectorySequence(M2);
-                sleep(500);
                 robot.C(0.2);
-                sleep(500);
-                drive.followTrajectorySequence(M3);
                 break;
             }
         }
 
-//        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-//        while (opModeIsActive())
-//        {
+        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
+        while (opModeIsActive())
+        {
             // Don't burn CPU cycles busy-looping in this sample
-//           sleep(50);
+            sleep(50);
         }
     }
+}

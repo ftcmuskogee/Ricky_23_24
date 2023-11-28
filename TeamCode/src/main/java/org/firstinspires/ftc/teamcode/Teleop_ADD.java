@@ -6,11 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-@TeleOp(name="Telephone")
+@TeleOp(name="Teleop ADD")
 
-public class Telephone extends LinearOpMode {
+public class Teleop_ADD extends LinearOpMode {
     // names motors and sets motors to type null
     public DcMotor Frontright = null;
     public DcMotor Backright = null;
@@ -27,19 +28,6 @@ public class Telephone extends LinearOpMode {
     public DcMotor Arm = null;
     //plane launch
     public Servo Plane = null;
-    // sets hardware map to null and names it
-
-    //sets booleans to false
-    private final boolean isPressed = false;
-    public boolean buttonPressed = false;
-    //sets variables to 0
-    public double lastTick = 0;
-    public double lastTime = 0;
-    public double currentTick = 0;
-    public double currentTime = 0;
-    public double targetShooterRPM = 0;
-
-
     //calls hardware map
     Treasuremap robot = new Treasuremap();
 
@@ -82,32 +70,40 @@ public class Telephone extends LinearOpMode {
         LinAct.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //calls from samplemecanumdrive
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        //SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         //sets motors to run without encoders
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //initializes hardware map
         //robot.init(hardwareMap);
 
         waitForStart();
 
         while (opModeIsActive()) {
+            double leftPower;
+            double rightPower;
+            double drive = -gamepad1.left_stick_y;
+            double turn  = -gamepad1.right_stick_x;
+            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
-            //sets all 4 base motors to the left and right joysticks on gamepad 1
-            //uses the variables from SampleMecanumDrive to adjust motors
-            //left stick in the y direction is for going forward and backward at 80% power
-            //left stick in the x direction is for strafing left and right at 80% power
-            //right stick in the x direction is for turning left and right at 80% power
-            //was x: y
-            //was y: x
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            -gamepad1.left_stick_y * 1,
-                                gamepad1.left_stick_x * 1,
-                            -gamepad1.right_stick_x * 0.8
-                    )
-            );
-
-            drive.update();
+            if (gamepad1.right_trigger > .1) {
+                Frontleft.setPower(1);
+                Backleft.setPower(-1);
+                Frontright.setPower(-1);
+                Backright.setPower(1);
+            }
+            else if (gamepad1.left_trigger > .1) {
+                Frontleft.setPower(-1);
+                Backleft.setPower(1);
+                Frontright.setPower(1);
+                Backright.setPower(-1);
+            }
+            else {
+                Frontleft.setPower(0);
+                Backleft.setPower(0);
+                Frontright.setPower(0);
+                Backright.setPower(0);
+            }
 
             // Makes variables Power1 and Power2 to their respective joystick
             double Power1 = gamepad2.right_stick_y;
@@ -133,13 +129,11 @@ public class Telephone extends LinearOpMode {
             }
             //up idk
             if (gamepad2.right_bumper){
-                Wrist.setPosition(.8);
-                //.65
+                Wrist.setPosition(.65);
             }
             // down idk
             if (gamepad2.left_bumper){
-                Wrist.setPosition(.5);
-                //.8
+                Wrist.setPosition(.8);
             }
             //open
             //was .1
@@ -174,11 +168,15 @@ public class Telephone extends LinearOpMode {
             }*/
 
             //adds data to the driver hub that tells you the coordinates of where the robot is on the field
-            Pose2d poseEstimate = drive.getPoseEstimate();
+            Frontleft.setPower(leftPower*speed);
+            Backleft.setPower(leftPower*speed);
+            Frontright.setPower(rightPower*speed);
+            Backright.setPower(rightPower*speed);
+            /*Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("a", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
-            telemetry.update();
+            telemetry.update();*/
         }
     }
 }
