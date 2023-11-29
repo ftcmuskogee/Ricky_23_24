@@ -100,7 +100,7 @@ public class BlueBack extends LinearOpMode
                         SampleMecanumDrive.getAccelerationConstraint(70))
                 .lineToConstantHeading(new Vector2d(43, -63), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(38, -65), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(36, -65), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
 
@@ -119,18 +119,16 @@ public class BlueBack extends LinearOpMode
                 .lineToConstantHeading(new Vector2d(37, -33), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
                 .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(37, -60), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .build();
+        TrajectorySequence L4 = drive.trajectorySequenceBuilder(L3.end())
+                .lineToConstantHeading(new Vector2d(55, -33), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(40, -65), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                        SampleMecanumDrive.getAccelerationConstraint(70))
+                .lineToConstantHeading(new Vector2d(34, -65), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
-    /*    TrajectorySequence L2 = drive.trajectorySequenceBuilder(L.end())
-                .back(1)
-                .turn(Math.toRadians(-50))
-                .lineToConstantHeading(new Vector2d(-35, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(-10, -57), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
-                .build();
-*/
+
         TrajectorySequence R = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(38, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 14.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
@@ -169,13 +167,14 @@ public class BlueBack extends LinearOpMode
                 drive.followTrajectorySequence(L);
                 sleep(500);
                 robot.W(.5);
-                sleep(500);
+                sleep(1000);
                 drive.followTrajectorySequence(L2);
                 sleep(500);
                 robot.C(0.2);
                 sleep(500);
                 drive.followTrajectorySequence(L3);
-              //  drive.followTrajectorySequence(L2);
+                sleep(500);
+                drive.followTrajectorySequence(L4);
                 break;
             }
 
@@ -192,7 +191,6 @@ public class BlueBack extends LinearOpMode
                 sleep(500);
                 robot.W(.8);
                 sleep(1500);
-                //robot.C(0);
                 drive.followTrajectorySequence(R2);
                 break;
             }

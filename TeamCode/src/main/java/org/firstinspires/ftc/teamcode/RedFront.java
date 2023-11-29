@@ -83,31 +83,31 @@ public class RedFront extends LinearOpMode
         Treasuremap robot = new Treasuremap();
         robot.init(hardwareMap);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(60, -35, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(-60, 35, Math.toRadians(270));
         //35,-60
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence M = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(40, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(-40, 35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(38, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
+                //.turn(Math.toRadians(90))
+                //.lineToConstantHeading(new Vector2d(-38, 35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                //        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
 
         TrajectorySequence L = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(40, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(-40, 35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .turn(Math.toRadians(140))
-                .lineToConstantHeading(new Vector2d(40, -31), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
+                //.turn(Math.toRadians(140))
+                //.lineToConstantHeading(new Vector2d(-40, 31), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                //        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
 
         TrajectorySequence R = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(37, -35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                .lineToConstantHeading(new Vector2d(-37, 35), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
                         SampleMecanumDrive.getAccelerationConstraint(70))
-                .lineToConstantHeading(new Vector2d(37, -32), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
-                        SampleMecanumDrive.getAccelerationConstraint(70))
+                //.lineToConstantHeading(new Vector2d(-37, 32), SampleMecanumDrive.getVelocityConstraint(58, Math.toRadians(360), 13.5),
+                //        SampleMecanumDrive.getAccelerationConstraint(70))
                 .build();
 
 
@@ -131,7 +131,7 @@ public class RedFront extends LinearOpMode
                 telemetry.addLine("left");
                 robot.C(0);
                 sleep(500);
-                robot.W(.65);
+                robot.W(.5);
                 sleep(500);
                 drive.followTrajectorySequence(L);
                 sleep(500);
@@ -145,7 +145,7 @@ public class RedFront extends LinearOpMode
                 telemetry.addLine("right");
                 robot.C(0);
                 sleep(500);
-                robot.W(.65);
+                robot.W(.5);
                 sleep(500);
                 drive.followTrajectorySequence(R);
                 sleep(500);
@@ -158,7 +158,7 @@ public class RedFront extends LinearOpMode
                 telemetry.addLine("mid");
                 robot.C(0);
                 sleep(500);
-                robot.W(.65);
+                robot.W(.5);
                 sleep(500);
                 drive.followTrajectorySequence(M);
                 sleep(500);
@@ -168,10 +168,10 @@ public class RedFront extends LinearOpMode
         }
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive())
+       /* while (opModeIsActive())
         {
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
-        }
+        }*/
     }
 }
