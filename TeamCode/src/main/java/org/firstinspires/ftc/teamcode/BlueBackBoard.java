@@ -26,7 +26,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.openftc.apriltag.AprilTagDetection;
+
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -35,45 +41,138 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import java.util.ArrayList;
+
 /*
  * This sample demonstrates how to run analysis during INIT
  * and then snapshot that value for later use when the START
  * command is issued. The pipeline is re-used from SkystoneDeterminationExample
  */
 @Autonomous(name = "BlueBackBoard", group = "robot")
-public class BlueBackBoard extends LinearOpMode
-{
+public class BlueBackBoard extends LinearOpMode {
     OpenCvWebcam webcam;
+    OpenCvCamera camera;
+    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    static final double FEET_PER_METER = 3.28084;
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
+
+    // UNITS ARE METERS
+    double tagsize = 0.166;
+    int ID_TAG_OF_INTEREST_L = 1;
+    int ID_TAG_OF_INTEREST_C = 2;
+    int ID_TAG_OF_INTEREST_R = 3;
+    AprilTagDetection tagOfInterest = null;
     OpenCvBlue.BlueDeterminationPipeline pipeline;
     OpenCvBlue.BlueDeterminationPipeline.SkystonePosition snapshotAnalysis = OpenCvBlue.BlueDeterminationPipeline.SkystonePosition.CENTER; // default
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         pipeline = new OpenCvBlue.BlueDeterminationPipeline();
         webcam.setPipeline(pipeline);
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        camera.setPipeline(aprilTagDetectionPipeline);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
-                webcam.startStreaming(640,360, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened() {
+                camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode) {}
+            public void onError(int errorCode) {
+
+            }
         });
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                webcam.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+            }
+        });
+        telemetry.setMsTransmissionInterval(50);
 
         /*
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
-        while (!isStarted() && !isStopRequested())
-        {
+        while (!isStarted() && !isStopRequested()) {
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+
+            if (currentDetections.size() != 0) {
+                boolean tagFound = false;
+
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == ID_TAG_OF_INTEREST_L) {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
+                    }
+                }
+                if (tagFound) {
+                    telemetry.addLine("Left tag is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == ID_TAG_OF_INTEREST_C) {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
+                    }
+                }
+                if (tagFound) {
+                    telemetry.addLine("Center tag is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == ID_TAG_OF_INTEREST_R) {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
+                    }
+                }
+                if (tagFound) {
+                    telemetry.addLine("Right tag is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+                else {
+                    telemetry.addLine("Don't see tag of interest :(");
+                    if (tagOfInterest == null) {
+                        telemetry.addLine("(The tag has never been seen)");
+                    } else {
+                        telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                        tagToTelemetry(tagOfInterest);
+                    }
+                }
+
+            } else {
+                telemetry.addLine("Don't see tag of interest :(");
+
+                if (tagOfInterest == null) {
+                    telemetry.addLine("(The tag has never been seen)");
+                } else {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+            }
+
+            telemetry.update();
+            sleep(20);
             telemetry.addData("Realtime analysis", pipeline.getAnalysis());
             telemetry.update();
 
@@ -137,10 +236,9 @@ public class BlueBackBoard extends LinearOpMode
         telemetry.addData("Snapshot post-START analysis", snapshotAnalysis);
         telemetry.update();
 
-        switch (snapshotAnalysis)
-        {
-            case LEFT:
-            {
+        switch (snapshotAnalysis) {
+            case LEFT: {
+
                 telemetry.addLine("left");
                 robot.C(0);
                 sleep(500);
@@ -151,11 +249,19 @@ public class BlueBackBoard extends LinearOpMode
                 robot.C(0.2);
                 sleep(500);
                 drive.followTrajectorySequence(L2);
+                if (tagOfInterest.pose.x <= 20) {
+                    robot.Forward(1);
+                }
+                else if (tagOfInterest.pose.x >= 20 && tagOfInterest.pose.x <= 50) {
+                    // do something else
+                }
+                else if (tagOfInterest.pose.x >= 50) {
+                    // do something else
+                }
                 break;
             }
 
-            case RIGHT:
-            {
+            case RIGHT: {
                 telemetry.addLine("right");
                 robot.C(0);
                 sleep(500);
@@ -168,8 +274,7 @@ public class BlueBackBoard extends LinearOpMode
                 break;
             }
 
-            case CENTER:
-            {
+            case CENTER: {
                 telemetry.addLine("mid");
                 robot.C(0);
                 sleep(500);
@@ -182,12 +287,17 @@ public class BlueBackBoard extends LinearOpMode
                 break;
             }
         }
+    }
+    void tagToTelemetry (AprilTagDetection detection)
+    {
+        Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 
-        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive())
-        {
-            // Don't burn CPU cycles busy-looping in this sample
-            sleep(50);
-        }
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z * FEET_PER_METER));
+        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
+        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
+        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
     }
 }
